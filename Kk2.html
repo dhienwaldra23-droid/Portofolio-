@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    <!-- FontAwesome untuk Icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            
+            /* Gambar Background Awan Biru */
+            background-image: url('https://images.unsplash.com/photo-1513002749550-c59d786b8e6c?q=80&w=1000&auto=format&fit=crop');
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        /* Kartu Utama - Glassmorphism Transparan 80% & Blur Halus */
+        .glass-card {
+            position: relative;
+            width: 100%;
+            max-width: 420px;
+            padding: 30px 24px;
+            border-radius: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+            color: #ffffff;
+        }
+
+        /* Profil Header */
+        .profile-img {
+            width: 85px;
+            height: 85px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .name {
+            font-size: 28px;
+            font-weight: 600;
+            margin: 8px 0;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .badges {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            font-size: 11px;
+            padding: 4px 14px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        .bio {
+            font-size: 14px;
+            line-height: 1.5;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Tombol Aksi */
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-music {
+            flex: 1;
+            height: 48px;
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            backdrop-filter: blur(8px);
+            transition: all 0.3s ease;
+        }
+
+        .btn-music:hover, .btn-music.playing {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .btn-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            text-decoration: none;
+            backdrop-filter: blur(8px);
+            transition: all 0.3s ease;
+        }
+
+        .btn-icon:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Section Universal Styling */
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            padding-bottom: 6px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        /* Styling Pembatas & Sub Judul Software */
+        .sub-divider {
+            border: none;
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+            margin: 14px 0 10px 0;
+        }
+
+        .sub-title {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Section Keahlian & Software */
+        .skills-list, .software-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .skill-item, .software-tag {
+            font-size: 12px;
+            padding: 6px 12px;
+            background: rgba(15, 35, 75, 0.45);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #ffffff;
+        }
+
+        /* Section Hasil Karya (Galeri Foto) */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .gallery-item {
+            width: 100%;
+            height: 110px;
+            border-radius: 16px;
+            object-fit: cover;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.03);
+        }
+
+        /* Kotak Wadah Gelap Khusus Harga & Revisi */
+        .dark-box {
+            background: rgba(15, 35, 75, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            border-radius: 18px;
+            padding: 12px 14px;
+            backdrop-filter: blur(6px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        /* Section Daftar Harga */
+        .price-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .price-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            padding: 6px 0;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+        }
+
+        .price-item:last-child {
+            border-bottom: none;
+        }
+
+        .price-item strong {
+            color: #7dd3fc;
+            font-weight: 600;
+        }
+
+        /* Section Aturan Revisi */
+        .rules-list {
+            font-size: 12.5px;
+            line-height: 1.6;
+            padding-left: 18px;
+            color: #ffffff;
+        }
+
+        .rules-list li {
+            margin-bottom: 4px;
+        }
+
+        .rules-list li:last-child {
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="glass-card">
+        <!-- Profile Header -->
+        <div>
+            <img src="logo.jpg" alt="Profile Picture" class="profile-img">
+            <h2 class="name">WellTesla</h2>
+            <div class="badges">
+                <span class="badge">Designer</span>
+                <span class="badge">Editor</span>
+            </div>
+        </div>
+
+        <!-- Tombol Musik & Sosmed -->
+        <div class="action-buttons">
+            <button class="btn-music" id="musicBtn" onclick="toggleMusic()">
+                <i class="fa-solid fa-music" id="musicIcon"></i> 
+                <span id="musicText">Musik</span>
+            </button>
+            <audio id="myAudio" src="bye.mp3"></audio>
+
+            <a href="https://www.instagram.com/welltesla?stkn=MjllNnY1eXcwMGdj" target="_blank" class="btn-icon" title="Instagram">
+                <i class="fa-brands fa-instagram"></i>
+            </a>
+            <a href="https://youtube.com/@frostsky1426?si=cOKudCNeQLCC7pFi" target="_blank" class="btn-icon" title="YouTube">
+                <i class="fa-brands fa-youtube"></i>
+            </a>
+        </div>
+
+        <!-- Tentang Saya -->
+        <div>
+            <h3 class="section-title"><i class="fa-regular fa-user"></i> Tentang Saya</h3>
+            <p class="bio">
+                Kreator visual yang berfokus pada desain grafis, ilustrasi, dan editing video kreatif untuk membantu kebutuhan konten digital kamu.
+            </p>
+        </div>
+
+        <!-- Keahlian & Software -->
+        <div>
+            <h3 class="section-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Keahlian</h3>
+            
+            <!-- Skill Utama -->
+            <div class="skills-list">
+                <span class="skill-item">Ngedesain</span>
+                <span class="skill-item">Menggambar</span>
+                <span class="skill-item">Ngedit Video</span>
+            </div>
+
+            <!-- Garis Pembatas -->
+            <hr class="sub-divider">
+
+            <!-- Sub Judul Software -->
+            <div class="sub-title">
+                <i class="fa-solid fa-laptop-code"></i> Software yang digunakan:
+            </div>
+
+            <!-- Daftar Software -->
+            <div class="software-tags">
+                <span class="software-tag">CorelDRAW</span>
+                <span class="software-tag">CapCut</span>
+                <span class="software-tag">Adobe</span>
+                <span class="software-tag">Canva</span>
+                <span class="software-tag">Word</span>
+                <span class="software-tag">Excel</span>
+            </div>
+        </div>
+
+        <!-- Galeri Hasil Karya -->
+        <div>
+            <h3 class="section-title"><i class="fa-regular fa-image"></i> Hasil Karya</h3>
+            <div class="gallery-grid">
+                <img src="kupu.jpg" alt="Karya 1" class="gallery-item">
+                <img src="bona.jpg" alt="Karya 2" class="gallery-item">
+                <img src="kemasan.jpg" alt="Karya 3" class="gallery-item">
+                <img src="de.jpg" alt="Karya 4" class="gallery-item">
+            </div>
+        </div>
+
+        <!-- Daftar Harga Jasa -->
+        <div>
+            <h3 class="section-title"><i class="fa-solid fa-tags"></i> Daftar Harga Jasa</h3>
+            <div class="dark-box">
+                <div class="price-list">
+                    <div class="price-item">
+                        <span>Desain Grafis / kemasan</span>
+                        <strong>Rp 20.000+</strong>
+                    </div>
+                    <div class="price-item">
+                        <span>Commission tergantung pengerjaan</span>
+                        <strong>Rp 30.000+</strong>
+                    </div>
+                    <div class="price-item">
+                        <span>Edit Video (CapCut/Adobe)</span>
+                        <strong>Rp 50.000+</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Aturan Revisi & Biaya -->
+        <div>
+            <h3 class="section-title"><i class="fa-solid fa-circle-exclamation"></i> Aturan Revisi & Biaya</h3>
+            <div class="dark-box">
+                <ul class="rules-list">
+                    <li>Gratis <b>2x revisi minor</b> (ganti warna/font/posisi elemen kecil).</li>
+                    <li>Revisi major / ubah konsep total: <b>Rp 20.000 / revisi</b>.</li>
+                    <li>Pengerjaan kilat (express 1 hari): Tambahan biaya <b>30%</b>.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script Pemutar Musik -->
+    <script>
+        const audio = document.getElementById('myAudio');
+        const musicBtn = document.getElementById('musicBtn');
+        const musicIcon = document.getElementById('musicIcon');
+        const musicText = document.getElementById('musicText');
+
+        function toggleMusic() {
+            if (audio.paused) {
+                audio.play();
+                musicText.innerText = "Pause";
+                musicIcon.className = "fa-solid fa-pause";
+                musicBtn.classList.add('playing');
+            } else {
+                audio.pause();
+                musicText.innerText = "Musik";
+                musicIcon.className = "fa-solid fa-music";
+                musicBtn.classList.remove('playing');
+            }
+        }
+
+        audio.onended = function() {
+            musicText.innerText = "Musik";
+            musicIcon.className = "fa-solid fa-music";
+            musicBtn.classList.remove('playing');
+        };
+    </script>
+
+</body>
+</html>
